@@ -8,6 +8,8 @@ from gtts import gTTS
 import os
 from googletrans import Translator
 
+import keyboards as kb
+
 bot = Bot(token=TOKEN)
 dp = Dispatcher()
 translator = Translator()
@@ -64,7 +66,7 @@ async def photo(message: Message):
 
 @dp.message(CommandStart())
 async def start(message: Message):
-    await message.answer(f"Приветики, {message.from_user.full_name}")
+    await message.answer(f"Приветики, {message.from_user.full_name}", reply_markup=kb.inline_keyboard_terst)
 
 @dp.message(Command('help'))
 async def help(message: Message):
