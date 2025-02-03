@@ -1,7 +1,7 @@
 import asyncio
 from aiogram import Bot, Dispatcher, F
 from aiogram.filters import CommandStart, Command
-from aiogram.types import Message, FSInputFile
+from aiogram.types import Message, FSInputFile, CallbackQuery
 from config import TOKEN, OPENWEATHERMAP_API_KEY
 import requests
 from gtts import gTTS
@@ -10,11 +10,23 @@ from googletrans import Translator
 
 import keyboards as kb
 
+import random
+
 bot = Bot(token=TOKEN)
 dp = Dispatcher()
 translator = Translator()
 
-import random
+
+@dp.callback_query(F.data == "news")
+async def news(callback: CallbackQuery):
+    await callback.answer("Новости подгружаются", show_alert=True)
+    await callback.message.edit_text('Вот свежие новости', reply_markup=await kb.test_keyboard())
+
+@dp.message(F.text == "Тестовая кнопка 1")
+async def test_button(message: Message):
+    await message.answer('Обработка нажатия на reply кнопку')
+
+
 
 @dp.message(Command('video'))
 async def video(message: Message):
